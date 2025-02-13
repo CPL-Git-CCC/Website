@@ -1,0 +1,141 @@
+/* Step 1: Decorative Styles */
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', Arial, sans-serif; /* Fallback to Arial and sans-serif */
+    background-color: #eaeaea; /* Background color */
+    color: #333; /* Text color */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+a {
+    color: #0077cc; /* Link color */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #005599; /* Link hover color */
+    text-decoration: underline;
+}
+
+/* Step 2: Image Controls */
+figure {
+    margin: 0; /* Remove unwanted margin space */
+}
+
+figure img {
+    width: 100%; /* Constrain image width to parent element */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Optional: Add rounded corners */
+}
+
+/* Step 3: Header and Footer Styles */
+header {
+    background-color: #333; /* Dark background for header */
+    color: #fff; /* White text for header */
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: normal;
+}
+
+footer {
+    background-color: #333; /* Dark background for footer */
+    color: #fff; /* White text for footer */
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px; /* Add space above footer */
+}
+
+/* Step 4: Navigation Design */
+nav {
+    background-color: #444; /* Dark background for navigation */
+    padding: 10px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none; /* Remove bullet points */
+    padding-left: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline-block; /* Display links horizontally */
+    margin: 0 10px;
+}
+
+nav a {
+    color: #fff; /* White text for links */
+    font-size: 1.2em;
+    padding: 5px 10px; /* Add padding for button-like appearance */
+    border-radius: 5px; /* Rounded corners for buttons */
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #0077cc; /* Change background on hover */
+    text-decoration: none;
+}
+
+/* Step 5: Layout Design */
+#container {
+    max-width: 1200px; /* Constrain container width for desktop */
+    margin: 0 auto; /* Center container */
+    background-color: #fff; /* White background for container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    padding: 20px;
+}
+
+/* Mobile Layout (default) */
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+/* Tablet Layout */
+@media (min-width: 600px) {
+    main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    figure {
+        flex: 1 1 45%; /* Two-column layout for images */
+    }
+
+    p {
+        flex: 1 1 100%; /* Full width for text */
+    }
+}
+
+/* Desktop Layout */
+@media (min-width: 900px) {
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two-column layout */
+        gap: 30px;
+        align-items: center;
+    }
+
+    figure {
+        margin: 0;
+    }
+
+    p {
+        text-align: left; /* Align text to the left */
+    }
+}
