@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for Progress</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Party Logos -->
+    <img src="IMG/democrat-logo.png" alt="Democrat Logo" class="logo top-left">
+    <img src="IMG/democrat-logo.png" alt="Democrat Logo" class="logo top-right">
+    <img src="IMG/democrat-logo.png" alt="Democrat Logo" class="logo bottom-left">
+    <img src="IMG/democrat-logo.png" alt="Democrat Logo" class="logo bottom-right">
+
+    <!-- Containers -->
+    <div class="democrat-container">
+        <h1 id="title">Vote for Progress</h1>
+        <ul>
+            <li>As a Democrat, I believe in building a future that works for everyone—not just the wealthy or the privileged.</li>
+            <li>We stand for affordable healthcare, quality education, and a fair economy that lifts everyone up.</li>
+            <li>While Republicans may focus on cutting taxes for the rich and rolling back protections for workers, we are committed to creating opportunities for all Americans.</li>
+            <li>This election, choose progress over division. Vote Democrat, because together, we can build a brighter, more inclusive future.</li>
+        </ul>
+    </div>
+
+    <div class="republican-container" style="display: none; opacity: 0;">
+        <h1 id="title">Vote for Stability</h1>
+        <ul>
+            <li>As a Republican, I believe in preserving the values that made this country great—individual liberty, personal responsibility, and limited government.</li>
+            <li>We stand for lower taxes, a strong national defense, and the protection of our constitutional rights.</li>
+            <li>While Democrats may push for bigger government and higher spending, we are committed to fiscal responsibility, free markets, and the rule of law.</li>
+            <li>This election, choose stability over chaos. Vote Republican, because together, we can secure a prosperous and free future.</li>
+        </ul>
+    </div>
+
+    <!-- Arrow Buttons -->
+    <div class="arrow-buttons">
+        <button class="arrow-button left-arrow" onclick="showDemocrat()">&#8592;</button>
+        <button class="arrow-button right-arrow" onclick="showRepublican()">&#8594;</button>
+    </div>
+
+    <script>
+        function showDemocrat() {
+            const democratContainer = document.querySelector('.democrat-container');
+            const republicanContainer = document.querySelector('.republican-container');
+            const body = document.body;
+            const logos = document.querySelectorAll('.logo');
+            const titleElement = document.getElementById('title');
+            const pageTitle = document.querySelector('title');
+
+            // If Democrat container is already visible, do nothing
+            if (democratContainer.style.display === 'block') return;
+
+            // Fade out Republican container
+            republicanContainer.style.transition = 'opacity 0.5s, transform 0.5s';
+            republicanContainer.style.opacity = '0';
+            republicanContainer.style.transform = 'translateX(20px)';
+
+            // Change logos to Democrat
+            logos.forEach(logo => {
+                logo.src = 'IMG/democrat-logo.png';
+            });
+
+            // Update title and heading
+            titleElement.textContent = 'Vote for Progress';
+            pageTitle.textContent = 'Vote for Progress';
+
+            // After fade out, hide Republican container and show Democrat container
+            setTimeout(() => {
+                republicanContainer.style.display = 'none';
+                democratContainer.style.display = 'block';
+
+                // Change background to blue
+                body.style.backgroundColor = '#0044cc';
+
+                // Fade in Democrat container
+                setTimeout(() => {
+                    democratContainer.style.transition = 'opacity 0.5s, transform 0.5s';
+                    democratContainer.style.opacity = '1';
+                    democratContainer.style.transform = 'translateX(0)';
+                }, 10);
+            }, 500);
+        }
+
+        function showRepublican() {
+            const democratContainer = document.querySelector('.democrat-container');
+            const republicanContainer = document.querySelector('.republican-container');
+            const body = document.body;
+            const logos = document.querySelectorAll('.logo');
+            const titleElement = document.getElementById('title');
+            const pageTitle = document.querySelector('title');
+
+            // If Republican container is already visible, do nothing
+            if (republicanContainer.style.display === 'block') return;
+
+            // Fade out Democrat container
+            democratContainer.style.transition = 'opacity 0.5s, transform 0.5s';
+            democratContainer.style.opacity = '0';
+            democratContainer.style.transform = 'translateX(-20px)';
+
+            // Change logos to Republican
+            logos.forEach(logo => {
+                logo.src = 'IMG/republican-logo.png';
+            });
+
+            // Update title and heading
+            titleElement.textContent = 'Vote for Stability';
+            pageTitle.textContent = 'Vote for Stability';
+
+            // After fade out, hide Democrat container and show Republican container
+            setTimeout(() => {
+                democratContainer.style.display = 'none';
+                republicanContainer.style.display = 'block';
+
+                // Change background to red
+                body.style.backgroundColor = '#cc0000';
+
+                // Fade in Republican container
+                setTimeout(() => {
+                    republicanContainer.style.transition = 'opacity 0.5s, transform 0.5s';
+                    republicanContainer.style.opacity = '1';
+                    republicanContainer.style.transform = 'translateX(0)';
+                }, 10);
+            }, 500);
+        }
+
+        // Set initial background color to blue (Democrat)
+        document.body.style.backgroundColor = '#0044cc';
+    </script>
+</body>
+</html>
