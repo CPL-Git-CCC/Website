@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Speed-Sync Day/Night Scroll</title>
+    <title>Pausing Scroll Transition</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         * {
@@ -19,7 +19,6 @@
             -webkit-text-size-adjust: 100%;
             background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
             color: #333;
-            transition: background 0.5s linear, color 0.5s linear;
         }
         
         .night-mode {
@@ -38,7 +37,6 @@
             font-size: clamp(2rem, 6vw, 4rem);
             margin-bottom: 4vh;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: text-shadow 0.5s linear;
         }
         
         .night-mode h1 {
@@ -49,7 +47,6 @@
             font-size: clamp(1rem, 2.8vw, 1.3rem);
             line-height: 1.7;
             margin-bottom: 3vh;
-            transition: all 0.5s linear;
         }
         
         .celestial {
@@ -57,7 +54,6 @@
             border-radius: 50%;
             z-index: 10;
             will-change: transform, opacity, top, right;
-            transition: none; /* We'll handle transitions with JS */
         }
         
         .sun {
@@ -90,14 +86,12 @@
             z-index: 1;
             pointer-events: none;
             overflow: hidden;
-            transition: opacity 0.5s linear;
         }
         
         .star {
             position: absolute;
             background-color: #fff;
             border-radius: 50%;
-            transition: opacity 0.3s linear;
         }
         
         .content-section {
@@ -107,7 +101,6 @@
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             backdrop-filter: blur(5px);
-            transition: all 0.5s linear;
         }
         
         .night-mode .content-section {
@@ -127,7 +120,6 @@
             border-radius: 20px;
             font-size: clamp(0.8rem, 2.5vw, 1rem);
             z-index: 100;
-            transition: all 0.3s ease;
             white-space: nowrap;
         }
         
@@ -174,49 +166,49 @@
         }
     </style>
 </head>
-<body class="">
+<body>
     <div class="sun celestial"></div>
     <div class="moon celestial"></div>
     <div class="stars" id="stars"></div>
     
     <div class="container">
-        <h1>Speed-Sync Scroll</h1>
-        <p>The transition speed matches your scrolling for a natural feel</p>
+        <h1>Pausing Scroll Transition</h1>
+        <p>The animation pauses when you stop scrolling for a natural feel</p>
         
         <div class="content-section">
-            <h2>Real-Time Sync</h2>
-            <p>This version dynamically adjusts the transition speed to match your scrolling velocity.</p>
-            <p>Fast scrolling = fast transitions. Slow scrolling = smooth gradual changes.</p>
+            <h2>Smart Animation</h2>
+            <p>This version intelligently pauses the transition when scrolling stops.</p>
+            <p>When you scroll again, it smoothly continues from where it left off.</p>
         </div>
         
         <div class="content-section">
             <h2>How It Works</h2>
-            <p>We measure scroll speed and apply proportional animation timing.</p>
-            <p>The system calculates your movement 60 times per second for perfect synchronization.</p>
+            <p>We detect when scrolling stops and freeze the animation.</p>
+            <p>The system maintains all positions and states until you scroll again.</p>
         </div>
         
         <div class="content-section">
-            <h2>Try Different Speeds</h2>
-            <p>Scroll quickly to see rapid day-to-night changes.</p>
-            <p>Scroll slowly for a gentle, cinematic transition.</p>
+            <h2>Try It Out</h2>
+            <p>Scroll partially, then stop - the animation will pause.</p>
+            <p>Continue scrolling and it will resume smoothly.</p>
         </div>
         
         <div class="content-section">
             <h2>Technical Details</h2>
-            <p>Uses requestAnimationFrame for buttery smooth performance.</p>
-            <p>Velocity calculations ensure perfect timing regardless of device.</p>
+            <p>Uses a scroll timeout to detect when scrolling stops.</p>
+            <p>Animation only runs during active scrolling periods.</p>
         </div>
 
         <div class="content-section">
-            <h2>Scroll Speed Test</h2>
-            <p>Notice how the animation keeps pace with your scrolling.</p>
-            <p>The faster you scroll, the quicker the transition happens.</p>
+            <h2>Perfect Synchronization</h2>
+            <p>The transition always matches your scroll position.</p>
+            <p>No jumps or skips when you start scrolling again.</p>
         </div>
 
         <div class="content-section">
             <h2>Final Section</h2>
             <p>You've reached the bottom. Scroll back up to reverse the effect.</p>
-            <p>Watch how the transition speed again matches your scroll velocity.</p>
+            <p>Notice how the pause works in both directions.</p>
         </div>
     </div>
     
@@ -230,7 +222,9 @@
             let scrollVelocity = 0;
             let dayIntensity = 1;
             let targetIntensity = 1;
-            let animationFrame;
+            let animationFrame = null;
+            let scrollTimeout = null;
+            let isScrolling = false;
             let maxScrollHeight = $(document).height() - $(window).height();
             
             // Create responsive starfield
@@ -271,8 +265,18 @@
             
             // Main animation loop
             function animate() {
-                // Smoothly approach target intensity based on scroll velocity
-                const smoothingFactor = Math.min(0.2, 0.005 + Math.abs(scrollVelocity) * 0.0005);
+                if (!isScrolling && Math.abs(dayIntensity - targetIntensity) < 0.001) {
+                    // Stop animation when target is reached and not scrolling
+                    cancelAnimationFrame(animationFrame);
+                    animationFrame = null;
+                    return;
+                }
+                
+                // Smoothly approach target intensity
+                const smoothingFactor = isScrolling ? 
+                    Math.min(0.2, 0.005 + Math.abs(scrollVelocity) * 0.0005) : 
+                    0.05; // Slower when not actively scrolling
+                
                 dayIntensity += (targetIntensity - dayIntensity) * smoothingFactor;
                 
                 // Update visuals
@@ -282,10 +286,31 @@
                 animationFrame = requestAnimationFrame(animate);
             }
             
+            // Start or restart animation
+            function startAnimation() {
+                if (!animationFrame) {
+                    animate();
+                }
+            }
+            
             // Handle scroll events
             function handleScroll() {
                 const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const currentTime = Date.now();
+                
+                // Mark as scrolling
+                isScrolling = true;
+                startAnimation();
+                
+                // Clear any existing timeout
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                
+                // Set new timeout to detect scroll end
+                scrollTimeout = setTimeout(function() {
+                    isScrolling = false;
+                }, 100);
                 
                 // Calculate scroll velocity (pixels per millisecond)
                 if (lastTimestamp > 0) {
@@ -351,7 +376,7 @@
             
             // Initialize
             createStars();
-            animate();
+            updateDayNight(dayIntensity);
             
             // Set up scroll listener
             $(window).on('scroll touchmove', handleScroll);
@@ -365,7 +390,12 @@
             
             // Clean up on exit
             $(window).on('beforeunload', function() {
-                cancelAnimationFrame(animationFrame);
+                if (animationFrame) {
+                    cancelAnimationFrame(animationFrame);
+                }
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
             });
         });
     </script>
