@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Responsive Day/Night Scroll</title>
+    <title>Speed-Sync Day/Night Scroll</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         * {
@@ -14,15 +14,12 @@
         
         body {
             font-family: 'Arial', sans-serif;
-            transition: background-color 0.8s ease, color 0.8s ease;
             min-height: 300vh;
             overflow-x: hidden;
             -webkit-text-size-adjust: 100%;
-        }
-        
-        .day-mode {
             background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
             color: #333;
+            transition: background 0.5s linear, color 0.5s linear;
         }
         
         .night-mode {
@@ -41,7 +38,7 @@
             font-size: clamp(2rem, 6vw, 4rem);
             margin-bottom: 4vh;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: text-shadow 0.8s ease;
+            transition: text-shadow 0.5s linear;
         }
         
         .night-mode h1 {
@@ -52,15 +49,15 @@
             font-size: clamp(1rem, 2.8vw, 1.3rem);
             line-height: 1.7;
             margin-bottom: 3vh;
-            transition: all 0.8s ease;
+            transition: all 0.5s linear;
         }
         
         .celestial {
             position: fixed;
             border-radius: 50%;
-            transition: all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1);
             z-index: 10;
-            will-change: transform, opacity;
+            will-change: transform, opacity, top, right;
+            transition: none; /* We'll handle transitions with JS */
         }
         
         .sun {
@@ -90,17 +87,17 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1.5s ease;
             z-index: 1;
             pointer-events: none;
             overflow: hidden;
+            transition: opacity 0.5s linear;
         }
         
         .star {
             position: absolute;
             background-color: #fff;
             border-radius: 50%;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.3s linear;
         }
         
         .content-section {
@@ -108,9 +105,9 @@
             padding: 5vh 5vw;
             background-color: rgba(255, 255, 255, 0.85);
             border-radius: 15px;
-            transition: all 0.8s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             backdrop-filter: blur(5px);
+            transition: all 0.5s linear;
         }
         
         .night-mode .content-section {
@@ -130,7 +127,7 @@
             border-radius: 20px;
             font-size: clamp(0.8rem, 2.5vw, 1rem);
             z-index: 100;
-            transition: all 0.5s ease;
+            transition: all 0.3s ease;
             white-space: nowrap;
         }
         
@@ -177,48 +174,49 @@
         }
     </style>
 </head>
-<body class="day-mode">
+<body class="">
     <div class="sun celestial"></div>
     <div class="moon celestial"></div>
     <div class="stars" id="stars"></div>
     
     <div class="container">
-        <h1>Day & Night Scroll</h1>
-        <p>A responsive experience that adapts to your screen size</p>
+        <h1>Speed-Sync Scroll</h1>
+        <p>The transition speed matches your scrolling for a natural feel</p>
         
         <div class="content-section">
-            <h2>Perfectly Adaptive</h2>
-            <p>This animation automatically adjusts to any screen size, from smartphones to large desktop monitors.</p>
-            <p>The celestial objects, transitions, and layout all scale proportionally.</p>
+            <h2>Real-Time Sync</h2>
+            <p>This version dynamically adjusts the transition speed to match your scrolling velocity.</p>
+            <p>Fast scrolling = fast transitions. Slow scrolling = smooth gradual changes.</p>
         </div>
         
         <div class="content-section">
-            <h2>Smooth Transitions</h2>
-            <p>The day-to-night transition uses optimized animations that work smoothly across all devices.</p>
-            <p>We've implemented performance enhancements to ensure buttery smooth scrolling.</p>
+            <h2>How It Works</h2>
+            <p>We measure scroll speed and apply proportional animation timing.</p>
+            <p>The system calculates your movement 60 times per second for perfect synchronization.</p>
         </div>
         
         <div class="content-section">
-            <h2>Dynamic Elements</h2>
-            <p>Watch as the sun sets and moon rises with perfect timing, while stars twinkle into view.</p>
-            <p>All elements move proportionally to your screen dimensions.</p>
+            <h2>Try Different Speeds</h2>
+            <p>Scroll quickly to see rapid day-to-night changes.</p>
+            <p>Scroll slowly for a gentle, cinematic transition.</p>
         </div>
         
         <div class="content-section">
-            <h2>Technical Excellence</h2>
-            <p>Built with modern CSS techniques like clamp(), vw/vh units, and optimized JavaScript.</p>
-            <p>The code prioritizes performance and accessibility on all platforms.</p>
+            <h2>Technical Details</h2>
+            <p>Uses requestAnimationFrame for buttery smooth performance.</p>
+            <p>Velocity calculations ensure perfect timing regardless of device.</p>
         </div>
 
         <div class="content-section">
-            <h2>Keep Scrolling</h2>
-            <p>Continue scrolling to see the full day-to-night transition effect.</p>
-            <p>The animation will complete at the same relative point on any device.</p>
+            <h2>Scroll Speed Test</h2>
+            <p>Notice how the animation keeps pace with your scrolling.</p>
+            <p>The faster you scroll, the quicker the transition happens.</p>
         </div>
 
         <div class="content-section">
             <h2>Final Section</h2>
-            <p>You've reached the transition completion point. Scroll back up to reverse the effect.</p>
+            <p>You've reached the bottom. Scroll back up to reverse the effect.</p>
+            <p>Watch how the transition speed again matches your scroll velocity.</p>
         </div>
     </div>
     
@@ -228,9 +226,12 @@
         $(document).ready(function() {
             // Initialize variables
             let lastScrollTop = 0;
+            let lastTimestamp = 0;
+            let scrollVelocity = 0;
             let dayIntensity = 1;
-            let ticking = false;
-            let maxScrollReached = false;
+            let targetIntensity = 1;
+            let animationFrame;
+            let maxScrollHeight = $(document).height() - $(window).height();
             
             // Create responsive starfield
             function createStars() {
@@ -268,32 +269,46 @@
                 `).appendTo('head');
             }
             
-            // Handle scroll events with debouncing
+            // Main animation loop
+            function animate() {
+                // Smoothly approach target intensity based on scroll velocity
+                const smoothingFactor = Math.min(0.2, 0.005 + Math.abs(scrollVelocity) * 0.0005);
+                dayIntensity += (targetIntensity - dayIntensity) * smoothingFactor;
+                
+                // Update visuals
+                updateDayNight(dayIntensity);
+                
+                // Continue animation
+                animationFrame = requestAnimationFrame(animate);
+            }
+            
+            // Handle scroll events
             function handleScroll() {
-                const st = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollDirection = st > lastScrollTop ? 'down' : 'up';
-                lastScrollTop = st <= 0 ? 0 : st;
+                const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const currentTime = Date.now();
                 
-                // Calculate scroll progress (0 to 1)
-                const scrollHeight = $(document).height() - $(window).height();
-                const scrollProgress = scrollHeight > 0 ? Math.min(1, st / scrollHeight) : 0;
-                
-                // Update day/night intensity
-                if (scrollDirection === 'down') {
-                    dayIntensity = Math.max(0, dayIntensity - 0.008);
-                } else {
-                    dayIntensity = Math.min(1, dayIntensity + 0.008);
+                // Calculate scroll velocity (pixels per millisecond)
+                if (lastTimestamp > 0) {
+                    const timeDiff = currentTime - lastTimestamp;
+                    if (timeDiff > 0) {
+                        scrollVelocity = (currentScrollTop - lastScrollTop) / timeDiff;
+                    }
                 }
                 
-                // Update UI
-                updateDayNight(dayIntensity, scrollProgress);
+                lastScrollTop = currentScrollTop;
+                lastTimestamp = currentTime;
+                
+                // Calculate target intensity based on scroll position
+                maxScrollHeight = $(document).height() - $(window).height();
+                const scrollProgress = maxScrollHeight > 0 ? Math.min(1, currentScrollTop / maxScrollHeight) : 0;
+                targetIntensity = 1 - scrollProgress;
                 
                 // Update scroll indicator
-                updateScrollIndicator(scrollDirection, scrollProgress);
+                updateScrollIndicator(scrollProgress);
             }
             
             // Update all day/night elements
-            function updateDayNight(intensity, progress) {
+            function updateDayNight(intensity) {
                 // Body background and text
                 $('body').toggleClass('day-mode', intensity > 0.5);
                 $('body').toggleClass('night-mode', intensity <= 0.5);
@@ -320,44 +335,38 @@
                 // Stars visibility
                 const starsOpacity = (1 - intensity) * 0.9;
                 $('#stars').css('opacity', starsOpacity);
-                $('.star').css('opacity', starsOpacity > 0 ? '1' : '0');
             }
             
             // Update scroll direction indicator
-            function updateScrollIndicator(direction, progress) {
+            function updateScrollIndicator(progress) {
                 const indicator = $('#scrollInfo');
                 if (progress >= 0.95) {
                     indicator.text('Scroll ↑ for day');
                 } else if (progress <= 0.05) {
                     indicator.text('Scroll ↓ for night');
                 } else {
-                    indicator.text(direction === 'down' ? 'Scroll ↓ for night' : 'Scroll ↑ for day');
+                    indicator.text(progress < 0.5 ? 'Scroll ↓ for night' : 'Scroll ↑ for day');
                 }
             }
             
             // Initialize
             createStars();
+            animate();
             
-            // Set up scroll listener with RAF for performance
-            $(window).on('scroll touchmove', function() {
-                if (!ticking) {
-                    window.requestAnimationFrame(function() {
-                        handleScroll();
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            });
+            // Set up scroll listener
+            $(window).on('scroll touchmove', handleScroll);
             
             // Handle window resize
             $(window).resize(function() {
                 $('#stars').empty();
                 createStars();
-                handleScroll(); // Update positions immediately
+                maxScrollHeight = $(document).height() - $(window).height();
             });
             
-            // Initial update
-            handleScroll();
+            // Clean up on exit
+            $(window).on('beforeunload', function() {
+                cancelAnimationFrame(animationFrame);
+            });
         });
     </script>
 </body>
