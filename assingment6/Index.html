@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Day/Night Scroll Effect</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -15,8 +15,9 @@
         body {
             font-family: 'Arial', sans-serif;
             transition: background-color 0.5s ease, color 0.5s ease;
-            height: 200vh; /* Make page scrollable */
+            min-height: 200vh; /* Make page scrollable */
             overflow-x: hidden;
+            -webkit-text-size-adjust: 100%; /* Prevent font scaling on iOS */
         }
         
         .day-mode {
@@ -30,47 +31,43 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 90%;
             margin: 0 auto;
-            padding: 50px 20px;
+            padding: 5vh 5vw;
             text-align: center;
         }
         
         h1 {
-            font-size: 3rem;
-            margin-bottom: 30px;
+            font-size: clamp(2rem, 5vw, 3rem); /* Responsive font size */
+            margin-bottom: 4vh;
         }
         
         p {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem); /* Responsive font size */
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 2vh;
         }
         
-        .sun {
-            width: 100px;
-            height: 100px;
-            background-color: #FDB813;
+        .sun, .moon {
+            width: clamp(50px, 10vw, 100px);
+            height: clamp(50px, 10vw, 100px);
             border-radius: 50%;
             position: fixed;
-            top: 50px;
-            right: 50px;
-            box-shadow: 0 0 50px #FDB813;
+            top: 5vh;
+            right: 5vw;
             transition: all 0.5s ease;
             z-index: 10;
         }
         
+        .sun {
+            background-color: #FDB813;
+            box-shadow: 0 0 clamp(20px, 5vw, 50px) #FDB813;
+        }
+        
         .moon {
-            width: 100px;
-            height: 100px;
             background-color: #E6E6FA;
-            border-radius: 50%;
-            position: fixed;
-            top: 50px;
-            right: 50px;
-            box-shadow: 0 0 30px #E6E6FA;
+            box-shadow: 0 0 clamp(10px, 3vw, 30px) #E6E6FA;
             opacity: 0;
-            transition: all 0.5s ease;
             z-index: 5;
         }
         
@@ -83,6 +80,7 @@
             opacity: 0;
             transition: opacity 0.5s ease;
             z-index: 1;
+            pointer-events: none;
         }
         
         .star {
@@ -92,8 +90,8 @@
         }
         
         .content-section {
-            margin: 100px 0;
-            padding: 40px;
+            margin: 5vh 0;
+            padding: 4vh 4vw;
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 10px;
             transition: background-color 0.5s ease;
@@ -105,12 +103,39 @@
         
         .scroll-direction {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            padding: 10px;
+            bottom: 2vh;
+            left: 2vw;
+            padding: 1vh 1vw;
             background-color: rgba(0, 0, 0, 0.5);
             color: white;
             border-radius: 5px;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            z-index: 100;
+        }
+
+        /* Responsive adjustments for very small screens */
+        @media (max-width: 480px) {
+            .container {
+                padding: 3vh 3vw;
+            }
+            
+            .content-section {
+                padding: 3vh 3vw;
+                margin: 3vh 0;
+            }
+            
+            .sun, .moon {
+                width: 40px;
+                height: 40px;
+                top: 3vh;
+                right: 3vw;
+            }
+        }
+
+        /* Prevent layout shift on mobile browsers */
+        html {
+            overflow-x: hidden;
+            width: 100%;
         }
     </style>
 </head>
@@ -125,25 +150,36 @@
         
         <div class="content-section">
             <h2>About This Effect</h2>
-            <p>This page demonstrates how to change between day and night themes based on scroll direction using CSS and jQuery.</p>
-            <p>The background color, text color, and celestial objects all transition smoothly as you scroll.</p>
+            <p>This responsive page changes between day and night themes based on scroll direction.</p>
+            <p>It adapts to all screen sizes from mobile phones to desktop monitors.</p>
         </div>
         
         <div class="content-section">
-            <h2>How It Works</h2>
-            <p>We track the scroll position and direction using JavaScript. When scrolling down, we gradually apply night-time styles. When scrolling up, we revert to daytime styles.</p>
-            <p>The sun and moon positions are animated, and stars fade in and out.</p>
+            <h2>Responsive Design</h2>
+            <p>This page uses viewport units (vw, vh) and clamp() for font sizes to ensure proper scaling on all devices.</p>
+            <p>Elements resize and reposition based on screen dimensions.</p>
         </div>
         
         <div class="content-section">
-            <h2>Try It Out</h2>
-            <p>Keep scrolling down to see the full night effect. Then scroll back up to return to daytime.</p>
-            <p>Notice how all elements transition smoothly between states.</p>
+            <h2>Mobile Friendly</h2>
+            <p>On small screens, the layout adjusts with smaller padding and celestial objects.</p>
+            <p>Touch scrolling works smoothly on smartphones and tablets.</p>
         </div>
         
         <div class="content-section">
-            <h2>Technical Details</h2>
-            <p>This uses CSS transitions for smooth animations and jQuery for scroll event handling. The stars are dynamically generated with JavaScript.</p>
+            <h2>Technical Features</h2>
+            <p>Uses CSS media queries for breakpoints, viewport meta tag for proper mobile rendering, and responsive units for flexible sizing.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>More Content</h2>
+            <p>Additional content to ensure the page is scrollable on all devices.</p>
+            <p>Keep scrolling to see the full day-to-night transition effect.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Final Section</h2>
+            <p>You've reached near the bottom of the page. Scroll back up to see the night transition back to day.</p>
         </div>
     </div>
     
@@ -156,19 +192,30 @@
             
             let lastScrollTop = 0;
             let dayIntensity = 1; // 1 = full day, 0 = full night
-            const scrollThreshold = 50; // How much to scroll before starting transition
+            let ticking = false; // For scroll performance optimization
             
-            $(window).scroll(function() {
+            // Handle both wheel and touch scroll events
+            $(window).on('scroll touchmove', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        updateScrollEffect();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+            
+            function updateScrollEffect() {
                 const st = $(this).scrollTop();
                 const scrollDirection = st > lastScrollTop ? 'down' : 'up';
-                lastScrollTop = st;
+                lastScrollTop = st <= 0 ? 0 : st; // Prevent negative values
                 
                 // Update scroll direction display
                 $('#scrollInfo').text('Scroll direction: ' + scrollDirection);
                 
                 // Calculate scroll percentage (0 to 1)
                 const maxScroll = $(document).height() - $(window).height();
-                const scrollPercent = st / maxScroll;
+                const scrollPercent = maxScroll > 0 ? st / maxScroll : 0;
                 
                 if (scrollDirection === 'down') {
                     dayIntensity = Math.max(0, dayIntensity - 0.01);
@@ -177,7 +224,7 @@
                 }
                 
                 updateDayNight(dayIntensity);
-            });
+            }
             
             function updateDayNight(intensity) {
                 // Background transition
@@ -187,18 +234,21 @@
                     $('body').removeClass('day-mode').addClass('night-mode');
                 }
                 
-                // Sun and moon positions and opacity
+                // Calculate responsive sizes for celestial objects
+                const sunMoonSize = $('.sun').width();
+                const moveDistance = Math.min(window.innerHeight * 0.2, 200);
+                
                 $('.sun').css({
                     'opacity': intensity,
-                    'top': 50 + (1 - intensity) * 100 + 'px',
-                    'right': 50 + (1 - intensity) * 100 + 'px',
+                    'top': (5 + (1 - intensity) * moveDistance / window.innerHeight * 100) + 'vh',
+                    'right': (5 + (1 - intensity) * moveDistance / window.innerWidth * 100) + 'vw',
                     'transform': 'scale(' + (0.8 + intensity * 0.2) + ')'
                 });
                 
                 $('.moon').css({
                     'opacity': 1 - intensity,
-                    'top': 50 + intensity * 100 + 'px',
-                    'right': 50 + intensity * 100 + 'px',
+                    'top': (5 + intensity * moveDistance / window.innerHeight * 100) + 'vh',
+                    'right': (5 + intensity * moveDistance / window.innerWidth * 100) + 'vw',
                     'transform': 'scale(' + (0.8 + (1 - intensity) * 0.2) + ')'
                 });
                 
@@ -208,7 +258,7 @@
             
             function createStars() {
                 const starsContainer = $('#stars');
-                const starCount = 200;
+                const starCount = Math.min(200, window.innerWidth * window.innerHeight / 1000); // Density based on screen size
                 
                 for (let i = 0; i < starCount; i++) {
                     const star = $('<div class="star"></div>');
@@ -230,6 +280,13 @@
                     starsContainer.append(star);
                 }
             }
+
+            // Handle window resize
+            $(window).resize(function() {
+                // Recreate stars for new screen size
+                $('#stars').empty();
+                createStars();
+            });
         });
     </script>
 </body>
