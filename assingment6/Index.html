@@ -20,6 +20,7 @@
             background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
             color: #333;
             line-height: 1.7;
+            padding: 5vh 5vw;
         }
         
         .night-mode {
@@ -27,17 +28,13 @@
             color: #f5f5f5;
         }
         
-        .container {
-            max-width: min(90%, 800px);
-            margin: 0 auto;
-            padding: 5vh 5vw;
-        }
-        
         h1 {
             font-size: clamp(2rem, 6vw, 3rem);
             margin-bottom: 4vh;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
         
         .night-mode h1 {
@@ -49,12 +46,17 @@
             margin-bottom: 3vh;
             text-align: justify;
             hyphens: auto;
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .celestial {
             position: fixed;
             border-radius: 50%;
-            z-index: 10;
+            z-index: 1;
             will-change: transform, opacity, top, right;
         }
         
@@ -63,8 +65,9 @@
             height: clamp(60px, 15vw, 150px);
             background: radial-gradient(circle, #FDB813, #FCB000);
             box-shadow: 0 0 clamp(30px, 8vw, 80px) #FDB813;
-            top: 5vh;
-            right: 5vw;
+            top: 50%;
+            left: 20%;
+            transform: translate(-50%, -50%);
         }
         
         .moon {
@@ -72,10 +75,10 @@
             height: clamp(60px, 15vw, 150px);
             background: radial-gradient(circle, #E6E6FA, #B0C4DE);
             box-shadow: 0 0 clamp(20px, 6vw, 60px) #E6E6FA;
-            top: 5vh;
-            right: 5vw;
+            top: 50%;
+            left: 20%;
+            transform: translate(-50%, -50%);
             opacity: 0;
-            z-index: 5;
         }
         
         .stars {
@@ -85,7 +88,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            z-index: 1;
+            z-index: 0;
             pointer-events: none;
             overflow: hidden;
         }
@@ -122,27 +125,31 @@
             
             body {
                 min-height: 400vh;
+                padding: 5vh 5vw;
+            }
+            
+            .sun, .moon {
+                left: 15%;
             }
         }
 
         @media (max-width: 480px) {
             .celestial {
-                width: 50px;
-                height: 50px;
-                top: 3vh;
-                right: 3vw;
-            }
-            
-            .container {
-                padding: 3vh 4vw;
+                width: 40px;
+                height: 40px;
             }
             
             body {
                 min-height: 500vh;
+                padding: 3vh 4vw;
             }
             
             p {
                 text-align: left;
+            }
+            
+            .sun, .moon {
+                left: 10%;
             }
         }
     </style>
@@ -152,21 +159,19 @@
     <div class="moon celestial"></div>
     <div class="stars" id="stars"></div>
     
-    <div class="container">
-        <h1>The Enchanted Trees of Willowbrook</h1>
-        
-        <p>In the small, sleepy town of Willowbrook, nestled between rolling hills and a dense forest, life moved at a pace so slow that even the clock tower in the town square seemed to tick louder than usual. The townsfolk were accustomed to the quiet rhythm of their days, but one autumn morning, something extraordinary happened.</p>
-        <p>It began with a faint, golden glow emanating from the forest. At first, no one paid much attention, thinking it was just the sun playing tricks through the leaves. But as the glow grew brighter and more persistent, curiosity got the better of the townspeople. A group of them, led by the ever-inquisitive librarian, Mrs. Thompson, decided to investigate.</p>
-        <p>As they ventured deeper into the forest, the glow became almost blinding, and the air grew warmer, despite the crisp autumn chill. The trees seemed to hum with an otherworldly energy, and the ground beneath their feet felt strangely soft, as if it were alive. Finally, they reached the source of the glow: a massive, ancient tree with bark that shimmered like gold and leaves that sparkled like diamonds.</p>
-        <p>At the base of the tree was a small, intricately carved wooden box. Mrs. Thompson, her hands trembling with excitement, carefully opened it. Inside was a single, glowing seed, pulsating with a light that seemed to dance in rhythm with the tree's hum. The townspeople gasped in awe, unsure of what to make of this strange discovery.</p>
-        <p>That night, the seed began to grow. It sprouted rapidly, its roots digging deep into the earth and its branches reaching high into the sky. By morning, a new tree stood beside the ancient one, its bark silver and its leaves a deep, shimmering blue. The townspeople gathered around, marveling at the sight. But the wonder didn't stop there.</p>
-        <p>As the days passed, the new tree began to bear fruit—unlike any the townspeople had ever seen. The fruits were translucent, with a soft, inner light that changed colors depending on the time of day. When eaten, they had a taste that was indescribable, a blend of every flavor imaginable, and they filled the eater with a sense of profound peace and clarity.</p>
-        <p>Word of the miraculous tree spread quickly, and soon, people from neighboring towns and even distant cities came to see it. Willowbrook, once a forgotten speck on the map, became a bustling hub of activity. The townspeople, initially overwhelmed by the sudden attention, soon found themselves thriving. They opened inns, markets, and guided tours, all centered around the enchanted tree.</p>
-        <p>But as the tree's fame grew, so did the greed of those who sought to exploit it. One night, a group of outsiders, armed with axes and saws, attempted to cut down the silver tree and steal its fruit. The townspeople, who had come to love and protect the tree, stood guard, forming a human chain around it. Just as the outsiders were about to strike, the ancient golden tree began to hum louder, and a blinding light enveloped the forest.</p>
-        <p>When the light faded, the outsiders were gone, and the silver tree had grown even taller, its branches now intertwined with those of the golden tree. The townspeople realized that the trees were protectors of the forest, and they vowed to keep their secret safe.</p>
-        <p>From that day on, Willowbrook became a sanctuary, a place where people could come to find peace and wonder, but only if they respected the magic of the forest. The trees continued to thrive, their fruits a symbol of harmony and balance, and the townspeople lived in quiet contentment, knowing they were part of something much greater than themselves.</p>
-        <p>And so, the legend of the golden and silver trees of Willowbrook lived on, a testament to the power of nature and the enduring spirit of a small town that dared to believe in the extraordinary.</p>
-    </div>
+    <h1>The Enchanted Trees of Willowbrook</h1>
+    
+    <p>In the small, sleepy town of Willowbrook, nestled between rolling hills and a dense forest, life moved at a pace so slow that even the clock tower in the town square seemed to tick louder than usual. The townsfolk were accustomed to the quiet rhythm of their days, but one autumn morning, something extraordinary happened.</p>
+    <p>It began with a faint, golden glow emanating from the forest. At first, no one paid much attention, thinking it was just the sun playing tricks through the leaves. But as the glow grew brighter and more persistent, curiosity got the better of the townspeople. A group of them, led by the ever-inquisitive librarian, Mrs. Thompson, decided to investigate.</p>
+    <p>As they ventured deeper into the forest, the glow became almost blinding, and the air grew warmer, despite the crisp autumn chill. The trees seemed to hum with an otherworldly energy, and the ground beneath their feet felt strangely soft, as if it were alive. Finally, they reached the source of the glow: a massive, ancient tree with bark that shimmered like gold and leaves that sparkled like diamonds.</p>
+    <p>At the base of the tree was a small, intricately carved wooden box. Mrs. Thompson, her hands trembling with excitement, carefully opened it. Inside was a single, glowing seed, pulsating with a light that seemed to dance in rhythm with the tree's hum. The townspeople gasped in awe, unsure of what to make of this strange discovery.</p>
+    <p>That night, the seed began to grow. It sprouted rapidly, its roots digging deep into the earth and its branches reaching high into the sky. By morning, a new tree stood beside the ancient one, its bark silver and its leaves a deep, shimmering blue. The townspeople gathered around, marveling at the sight. But the wonder didn't stop there.</p>
+    <p>As the days passed, the new tree began to bear fruit—unlike any the townspeople had ever seen. The fruits were translucent, with a soft, inner light that changed colors depending on the time of day. When eaten, they had a taste that was indescribable, a blend of every flavor imaginable, and they filled the eater with a sense of profound peace and clarity.</p>
+    <p>Word of the miraculous tree spread quickly, and soon, people from neighboring towns and even distant cities came to see it. Willowbrook, once a forgotten speck on the map, became a bustling hub of activity. The townspeople, initially overwhelmed by the sudden attention, soon found themselves thriving. They opened inns, markets, and guided tours, all centered around the enchanted tree.</p>
+    <p>But as the tree's fame grew, so did the greed of those who sought to exploit it. One night, a group of outsiders, armed with axes and saws, attempted to cut down the silver tree and steal its fruit. The townspeople, who had come to love and protect the tree, stood guard, forming a human chain around it. Just as the outsiders were about to strike, the ancient golden tree began to hum louder, and a blinding light enveloped the forest.</p>
+    <p>When the light faded, the outsiders were gone, and the silver tree had grown even taller, its branches now intertwined with those of the golden tree. The townspeople realized that the trees were protectors of the forest, and they vowed to keep their secret safe.</p>
+    <p>From that day on, Willowbrook became a sanctuary, a place where people could come to find peace and wonder, but only if they respected the magic of the forest. The trees continued to thrive, their fruits a symbol of harmony and balance, and the townspeople lived in quiet contentment, knowing they were part of something much greater than themselves.</p>
+    <p>And so, the legend of the golden and silver trees of Willowbrook lived on, a testament to the power of nature and the enduring spirit of a small town that dared to believe in the extraordinary.</p>
     
     <div class="scroll-indicator" id="scrollInfo">Scroll ↓ for night</div>
     
@@ -294,23 +299,15 @@
                 $('body').toggleClass('day-mode', intensity > 0.5);
                 $('body').toggleClass('night-mode', intensity <= 0.5);
                 
-                // Celestial object positions
-                const celestialBaseTop = window.innerHeight * 0.05;
-                const celestialBaseSide = window.innerWidth * 0.05;
-                const moveDistance = Math.min(window.innerHeight * 0.3, 300);
-                
+                // Celestial object positions and appearance
                 $('.sun').css({
                     'opacity': intensity,
-                    'top': `${celestialBaseTop + (1 - intensity) * moveDistance}px`,
-                    'right': `${celestialBaseSide + (1 - intensity) * moveDistance * 0.7}px`,
-                    'transform': `scale(${0.8 + intensity * 0.3})`
+                    'transform': `translate(-50%, -50%) scale(${0.8 + intensity * 0.3})`
                 });
                 
                 $('.moon').css({
                     'opacity': 1 - intensity,
-                    'top': `${celestialBaseTop + intensity * moveDistance}px`,
-                    'right': `${celestialBaseSide + intensity * moveDistance * 0.7}px`,
-                    'transform': `scale(${0.7 + (1 - intensity) * 0.4})`
+                    'transform': `translate(-50%, -50%) scale(${0.7 + (1 - intensity) * 0.4})`
                 });
                 
                 // Stars visibility
