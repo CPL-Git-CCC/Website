@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Enchanted Trees of Willowbrook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day/Night Scroll Effect</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         * {
@@ -14,71 +14,64 @@
         
         body {
             font-family: 'Arial', sans-serif;
-            min-height: 300vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            height: 200vh; /* Make page scrollable */
             overflow-x: hidden;
-            -webkit-text-size-adjust: 100%;
-            background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
+        }
+        
+        .day-mode {
+            background-color: #87CEEB; /* Sky blue */
             color: #333;
-            line-height: 1.7;
-            padding: 5vh 5vw;
         }
         
         .night-mode {
-            background: linear-gradient(to bottom, #0F2027, #203A43);
-            color: #f5f5f5;
+            background-color: #0F2027; /* Dark blue */
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            text-align: center;
         }
         
         h1 {
-            font-size: clamp(2rem, 6vw, 3rem);
-            margin-bottom: 4vh;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .night-mode h1 {
-            text-shadow: 0 2px 8px rgba(255,255,255,0.2);
+            font-size: 3rem;
+            margin-bottom: 30px;
         }
         
         p {
-            font-size: clamp(1rem, 2.8vw, 1.1rem);
-            margin-bottom: 3vh;
-            text-align: justify;
-            hyphens: auto;
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .celestial {
-            position: fixed;
-            border-radius: 50%;
-            z-index: 1;
-            will-change: transform, opacity, top, right;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
         
         .sun {
-            width: clamp(60px, 15vw, 150px);
-            height: clamp(60px, 15vw, 150px);
-            background: radial-gradient(circle, #FDB813, #FCB000);
-            box-shadow: 0 0 clamp(30px, 8vw, 80px) #FDB813;
-            top: 50%;
-            left: 20%;
-            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background-color: #FDB813;
+            border-radius: 50%;
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            box-shadow: 0 0 50px #FDB813;
+            transition: all 0.5s ease;
+            z-index: 10;
         }
         
         .moon {
-            width: clamp(60px, 15vw, 150px);
-            height: clamp(60px, 15vw, 150px);
-            background: radial-gradient(circle, #E6E6FA, #B0C4DE);
-            box-shadow: 0 0 clamp(20px, 6vw, 60px) #E6E6FA;
-            top: 50%;
-            left: 20%;
-            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background-color: #E6E6FA;
+            border-radius: 50%;
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            box-shadow: 0 0 30px #E6E6FA;
             opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 5;
         }
         
         .stars {
@@ -88,9 +81,8 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
+            transition: opacity 0.5s ease;
+            z-index: 1;
         }
         
         .star {
@@ -99,257 +91,145 @@
             border-radius: 50%;
         }
         
-        .scroll-indicator {
-            position: fixed;
-            bottom: 3vh;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 1vh 2vw;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            border-radius: 20px;
-            font-size: clamp(0.8rem, 2.5vw, 1rem);
-            z-index: 100;
-            white-space: nowrap;
+        .content-section {
+            margin: 100px 0;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            transition: background-color 0.5s ease;
         }
         
-        .night-mode .scroll-indicator {
-            background-color: rgba(255, 255, 255, 0.2);
+        .night-mode .content-section {
+            background-color: rgba(0, 0, 0, 0.7);
         }
-
-        @media (max-width: 768px) {
-            .celestial {
-                width: clamp(50px, 18vw, 100px);
-                height: clamp(50px, 18vw, 100px);
-            }
-            
-            body {
-                min-height: 400vh;
-                padding: 5vh 5vw;
-            }
-            
-            .sun, .moon {
-                left: 15%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .celestial {
-                width: 40px;
-                height: 40px;
-            }
-            
-            body {
-                min-height: 500vh;
-                padding: 3vh 4vw;
-            }
-            
-            p {
-                text-align: left;
-            }
-            
-            .sun, .moon {
-                left: 10%;
-            }
+        
+        .scroll-direction {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 5px;
         }
     </style>
 </head>
-<body>
-    <div class="sun celestial"></div>
-    <div class="moon celestial"></div>
+<body class="day-mode">
+    <div class="sun"></div>
+    <div class="moon"></div>
     <div class="stars" id="stars"></div>
     
-    <h1>The Enchanted Trees of Willowbrook</h1>
+    <div class="container">
+        <h1>Day & Night Scroll Effect</h1>
+        <p>Scroll down to see night time appear. Scroll up to return to daytime.</p>
+        
+        <div class="content-section">
+            <h2>About This Effect</h2>
+            <p>This page demonstrates how to change between day and night themes based on scroll direction using CSS and jQuery.</p>
+            <p>The background color, text color, and celestial objects all transition smoothly as you scroll.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>How It Works</h2>
+            <p>We track the scroll position and direction using JavaScript. When scrolling down, we gradually apply night-time styles. When scrolling up, we revert to daytime styles.</p>
+            <p>The sun and moon positions are animated, and stars fade in and out.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Try It Out</h2>
+            <p>Keep scrolling down to see the full night effect. Then scroll back up to return to daytime.</p>
+            <p>Notice how all elements transition smoothly between states.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Technical Details</h2>
+            <p>This uses CSS transitions for smooth animations and jQuery for scroll event handling. The stars are dynamically generated with JavaScript.</p>
+        </div>
+    </div>
     
-    <p>In the small, sleepy town of Willowbrook, nestled between rolling hills and a dense forest, life moved at a pace so slow that even the clock tower in the town square seemed to tick louder than usual. The townsfolk were accustomed to the quiet rhythm of their days, but one autumn morning, something extraordinary happened.</p>
-    <p>It began with a faint, golden glow emanating from the forest. At first, no one paid much attention, thinking it was just the sun playing tricks through the leaves. But as the glow grew brighter and more persistent, curiosity got the better of the townspeople. A group of them, led by the ever-inquisitive librarian, Mrs. Thompson, decided to investigate.</p>
-    <p>As they ventured deeper into the forest, the glow became almost blinding, and the air grew warmer, despite the crisp autumn chill. The trees seemed to hum with an otherworldly energy, and the ground beneath their feet felt strangely soft, as if it were alive. Finally, they reached the source of the glow: a massive, ancient tree with bark that shimmered like gold and leaves that sparkled like diamonds.</p>
-    <p>At the base of the tree was a small, intricately carved wooden box. Mrs. Thompson, her hands trembling with excitement, carefully opened it. Inside was a single, glowing seed, pulsating with a light that seemed to dance in rhythm with the tree's hum. The townspeople gasped in awe, unsure of what to make of this strange discovery.</p>
-    <p>That night, the seed began to grow. It sprouted rapidly, its roots digging deep into the earth and its branches reaching high into the sky. By morning, a new tree stood beside the ancient one, its bark silver and its leaves a deep, shimmering blue. The townspeople gathered around, marveling at the sight. But the wonder didn't stop there.</p>
-    <p>As the days passed, the new tree began to bear fruit—unlike any the townspeople had ever seen. The fruits were translucent, with a soft, inner light that changed colors depending on the time of day. When eaten, they had a taste that was indescribable, a blend of every flavor imaginable, and they filled the eater with a sense of profound peace and clarity.</p>
-    <p>Word of the miraculous tree spread quickly, and soon, people from neighboring towns and even distant cities came to see it. Willowbrook, once a forgotten speck on the map, became a bustling hub of activity. The townspeople, initially overwhelmed by the sudden attention, soon found themselves thriving. They opened inns, markets, and guided tours, all centered around the enchanted tree.</p>
-    <p>But as the tree's fame grew, so did the greed of those who sought to exploit it. One night, a group of outsiders, armed with axes and saws, attempted to cut down the silver tree and steal its fruit. The townspeople, who had come to love and protect the tree, stood guard, forming a human chain around it. Just as the outsiders were about to strike, the ancient golden tree began to hum louder, and a blinding light enveloped the forest.</p>
-    <p>When the light faded, the outsiders were gone, and the silver tree had grown even taller, its branches now intertwined with those of the golden tree. The townspeople realized that the trees were protectors of the forest, and they vowed to keep their secret safe.</p>
-    <p>From that day on, Willowbrook became a sanctuary, a place where people could come to find peace and wonder, but only if they respected the magic of the forest. The trees continued to thrive, their fruits a symbol of harmony and balance, and the townspeople lived in quiet contentment, knowing they were part of something much greater than themselves.</p>
-    <p>And so, the legend of the golden and silver trees of Willowbrook lived on, a testament to the power of nature and the enduring spirit of a small town that dared to believe in the extraordinary.</p>
-    
-    <div class="scroll-indicator" id="scrollInfo">Scroll ↓ for night</div>
+    <div class="scroll-direction" id="scrollInfo">Scroll direction: </div>
     
     <script>
         $(document).ready(function() {
-            // Initialize variables
+            // Create stars
+            createStars();
+            
             let lastScrollTop = 0;
-            let lastTimestamp = 0;
-            let scrollVelocity = 0;
-            let dayIntensity = 1;
-            let targetIntensity = 1;
-            let animationFrame = null;
-            let scrollTimeout = null;
-            let isScrolling = false;
-            let maxScrollHeight = $(document).height() - $(window).height();
+            let dayIntensity = 1; // 1 = full day, 0 = full night
+            const scrollThreshold = 50; // How much to scroll before starting transition
             
-            // Create responsive starfield
-            function createStars() {
-                const starsContainer = $('#stars');
-                const screenArea = window.innerWidth * window.innerHeight;
-                const starCount = Math.min(300, Math.floor(screenArea / 2000));
+            $(window).scroll(function() {
+                const st = $(this).scrollTop();
+                const scrollDirection = st > lastScrollTop ? 'down' : 'up';
+                lastScrollTop = st;
                 
-                for (let i = 0; i < starCount; i++) {
-                    const star = $('<div class="star"></div>');
-                    const size = Math.random() * 2 + 0.5;
-                    const posX = Math.random() * 100;
-                    const posY = Math.random() * 100;
-                    const opacity = Math.random() * 0.8 + 0.2;
-                    const delay = Math.random() * 3;
-                    const animationDuration = Math.random() * 3 + 2;
-                    
-                    star.css({
-                        'width': `${size}px`,
-                        'height': `${size}px`,
-                        'top': `${posY}%`,
-                        'left': `${posX}%`,
-                        'opacity': '0',
-                        'animation': `twinkle ${animationDuration}s infinite ${delay}s`
-                    });
-                    
-                    starsContainer.append(star);
+                // Update scroll direction display
+                $('#scrollInfo').text('Scroll direction: ' + scrollDirection);
+                
+                // Calculate scroll percentage (0 to 1)
+                const maxScroll = $(document).height() - $(window).height();
+                const scrollPercent = st / maxScroll;
+                
+                if (scrollDirection === 'down') {
+                    dayIntensity = Math.max(0, dayIntensity - 0.01);
+                } else {
+                    dayIntensity = Math.min(1, dayIntensity + 0.01);
                 }
                 
-                // Add twinkle animation
-                $('<style>').text(`
-                    @keyframes twinkle {
-                        0%, 100% { opacity: 0.2; }
-                        50% { opacity: ${Math.random() * 0.7 + 0.3}; }
-                    }
-                `).appendTo('head');
-            }
-            
-            // Main animation loop
-            function animate() {
-                if (!isScrolling && Math.abs(dayIntensity - targetIntensity) < 0.001) {
-                    // Stop animation when target is reached and not scrolling
-                    cancelAnimationFrame(animationFrame);
-                    animationFrame = null;
-                    return;
-                }
-                
-                // Smoothly approach target intensity
-                const smoothingFactor = isScrolling ? 
-                    Math.min(0.2, 0.005 + Math.abs(scrollVelocity) * 0.0005) : 
-                    0.05; // Slower when not actively scrolling
-                
-                dayIntensity += (targetIntensity - dayIntensity) * smoothingFactor;
-                
-                // Update visuals
                 updateDayNight(dayIntensity);
-                
-                // Continue animation
-                animationFrame = requestAnimationFrame(animate);
-            }
+            });
             
-            // Start or restart animation
-            function startAnimation() {
-                if (!animationFrame) {
-                    animate();
-                }
-            }
-            
-            // Handle scroll events
-            function handleScroll() {
-                const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const currentTime = Date.now();
-                
-                // Mark as scrolling
-                isScrolling = true;
-                startAnimation();
-                
-                // Clear any existing timeout
-                if (scrollTimeout) {
-                    clearTimeout(scrollTimeout);
-                }
-                
-                // Set new timeout to detect scroll end
-                scrollTimeout = setTimeout(function() {
-                    isScrolling = false;
-                }, 100);
-                
-                // Calculate scroll velocity (pixels per millisecond)
-                if (lastTimestamp > 0) {
-                    const timeDiff = currentTime - lastTimestamp;
-                    if (timeDiff > 0) {
-                        scrollVelocity = (currentScrollTop - lastScrollTop) / timeDiff;
-                    }
-                }
-                
-                lastScrollTop = currentScrollTop;
-                lastTimestamp = currentTime;
-                
-                // Calculate target intensity based on scroll position
-                maxScrollHeight = $(document).height() - $(window).height();
-                const scrollProgress = maxScrollHeight > 0 ? Math.min(1, currentScrollTop / maxScrollHeight) : 0;
-                targetIntensity = 1 - scrollProgress;
-                
-                // Update scroll indicator
-                updateScrollIndicator(scrollProgress);
-            }
-            
-            // Update all day/night elements
             function updateDayNight(intensity) {
-                // Body background and text
-                $('body').toggleClass('day-mode', intensity > 0.5);
-                $('body').toggleClass('night-mode', intensity <= 0.5);
+                // Background transition
+                if (intensity > 0.5) {
+                    $('body').removeClass('night-mode').addClass('day-mode');
+                } else {
+                    $('body').removeClass('day-mode').addClass('night-mode');
+                }
                 
-                // Celestial object positions and appearance
+                // Sun and moon positions and opacity
                 $('.sun').css({
                     'opacity': intensity,
-                    'transform': `translate(-50%, -50%) scale(${0.8 + intensity * 0.3})`
+                    'top': 50 + (1 - intensity) * 100 + 'px',
+                    'right': 50 + (1 - intensity) * 100 + 'px',
+                    'transform': 'scale(' + (0.8 + intensity * 0.2) + ')'
                 });
                 
                 $('.moon').css({
                     'opacity': 1 - intensity,
-                    'transform': `translate(-50%, -50%) scale(${0.7 + (1 - intensity) * 0.4})`
+                    'top': 50 + intensity * 100 + 'px',
+                    'right': 50 + intensity * 100 + 'px',
+                    'transform': 'scale(' + (0.8 + (1 - intensity) * 0.2) + ')'
                 });
                 
-                // Stars visibility
-                const starsOpacity = (1 - intensity) * 0.9;
-                $('#stars').css('opacity', starsOpacity);
+                // Stars opacity
+                $('.stars').css('opacity', (1 - intensity) * 0.8);
             }
             
-            // Update scroll direction indicator
-            function updateScrollIndicator(progress) {
-                const indicator = $('#scrollInfo');
-                if (progress >= 0.95) {
-                    indicator.text('Scroll ↑ for day');
-                } else if (progress <= 0.05) {
-                    indicator.text('Scroll ↓ for night');
-                } else {
-                    indicator.text(progress < 0.5 ? 'Scroll ↓ for night' : 'Scroll ↑ for day');
+            function createStars() {
+                const starsContainer = $('#stars');
+                const starCount = 200;
+                
+                for (let i = 0; i < starCount; i++) {
+                    const star = $('<div class="star"></div>');
+                    const size = Math.random() * 3;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const opacity = Math.random();
+                    const delay = Math.random() * 5;
+                    
+                    star.css({
+                        'width': size + 'px',
+                        'height': size + 'px',
+                        'top': posY + '%',
+                        'left': posX + '%',
+                        'opacity': opacity,
+                        'animation-delay': delay + 's'
+                    });
+                    
+                    starsContainer.append(star);
                 }
             }
-            
-            // Initialize
-            createStars();
-            updateDayNight(dayIntensity);
-            
-            // Set up scroll listener
-            $(window).on('scroll touchmove', handleScroll);
-            
-            // Handle window resize
-            $(window).resize(function() {
-                $('#stars').empty();
-                createStars();
-                maxScrollHeight = $(document).height() - $(window).height();
-            });
-            
-            // Clean up on exit
-            $(window).on('beforeunload', function() {
-                if (animationFrame) {
-                    cancelAnimationFrame(animationFrame);
-                }
-                if (scrollTimeout) {
-                    clearTimeout(scrollTimeout);
-                }
-            });
         });
     </script>
 </body>
