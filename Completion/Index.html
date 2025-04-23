@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Labor Movements Timeline</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="header">
+      <h1>Modern Labor Movements Timeline</h1>
+  </div>
+  
+  <div class="legend-container">
+      <div class="legend-item rail-legend">
+          <div class="legend-color"></div>
+          <span>Railroad Labor Dispute</span>
+      </div>
+      <div class="legend-item amazon-legend">
+          <div class="legend-color"></div>
+          <span>Amazon Unionization</span>
+      </div>
+      <div class="legend-item starbucks-legend">
+          <div class="legend-color"></div>
+          <span>Starbucks Unionization</span>
+      </div>
+  </div>
+  
+  <div class="timeline-container">
+      <!-- Railroad Events -->
+      <div class="event left rail">
+          <div class="event-card">
+              <div class="event-date">November 2019</div>
+              <h3 class="event-title">Rail Negotiations Begin</h3>
+              <p class="event-desc">Contract negotiations start between rail unions and carriers, focusing on working conditions and benefits.</p>
+          </div>
+      </div>
+      
+      <!-- Amazon Events -->
+      <div class="event right amazon">
+          <div class="event-card">
+              <div class="event-date">March 2020</div>
+              <h3 class="event-title">Chris Smalls Leads Walkout</h3>
+              <p class="event-desc">Amazon worker Chris Smalls organizes Staten Island walkout over COVID safety concerns, leading to his firing and eventual union organizing.</p>
+          </div>
+      </div>
+      
+      <!-- Railroad Events -->
+      <div class="event left rail">
+          <div class="event-card">
+              <div class="event-date">August 2022</div>
+              <h3 class="event-title">Presidential Emergency Board</h3>
+              <p class="event-desc">Biden establishes emergency board to investigate rail dispute as negotiations stall.</p>
+          </div>
+      </div>
+      
+      <!-- Starbucks Events -->
+      <div class="event right starbucks">
+          <div class="event-card">
+              <div class="event-date">December 2021</div>
+              <h3 class="event-title">First Starbucks Unionizes</h3>
+              <p class="event-desc">Workers at a Buffalo, NY Starbucks vote to unionize, the first corporate-owned store to do so in decades.</p>
+          </div>
+      </div>
+      
+      <!-- Amazon Events -->
+      <div class="event left amazon">
+          <div class="event-card">
+              <div class="event-date">April 2022</div>
+              <h3 class="event-title">ALU Wins Historic Election</h3>
+              <p class="event-desc">Amazon Labor Union wins election at JFK8 warehouse, creating Amazon's first US union.</p>
+          </div>
+      </div>
+      
+      <!-- Railroad Events -->
+      <div class="event right rail">
+          <div class="event-card">
+              <div class="event-date">September 2022</div>
+              <h3 class="event-title">Tentative Agreement Reached</h3>
+              <p class="event-desc">Unions and carriers reach deal hours before strike deadline, but 4 unions later reject it.</p>
+          </div>
+      </div>
+      
+      <!-- Starbucks Events -->
+      <div class="event left starbucks">
+          <div class="event-card">
+              <div class="event-date">2022-2023</div>
+              <h3 class="event-title">Rapid Expansion</h3>
+              <p class="event-desc">Over 400 Starbucks stores vote to unionize across the US, despite corporate opposition.</p>
+          </div>
+      </div>
+      
+      <!-- Railroad Events -->
+      <div class="event right rail">
+          <div class="event-card">
+              <div class="event-date">December 2022</div>
+              <h3 class="event-title">Congress Imposes Contract</h3>
+              <p class="event-desc">Congress intervenes to prevent strike, imposing terms rejected by some unions.</p>
+          </div>
+      </div>
+      
+      <!-- Amazon Events -->
+      <div class="event left amazon">
+          <div class="event-card">
+              <div class="event-date">2023</div>
+              <h3 class="event-title">Contract Negotiations Stall</h3>
+              <p class="event-desc">Amazon continues to resist recognizing ALU, leading to protracted legal battles.</p>
+          </div>
+      </div>
+      
+      <!-- Starbucks Events -->
+      <div class="event right starbucks">
+          <div class="event-card">
+              <div class="event-date">2023-2024</div>
+              <h3 class="event-title">Bargaining Begins</h3>
+              <p class="event-desc">After policy shift, Starbucks begins contract negotiations with unionized stores.</p>
+          </div>
+      </div>
+  </div>
+  
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const events = document.querySelectorAll('.event');
+          
+          const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.classList.add('visible');
+                  }
+              });
+          }, { threshold: 0.1 });
+          
+          events.forEach(event => {
+              observer.observe(event);
+          });
+      });
+  </script>
+</body>
+</html>

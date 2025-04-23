@@ -1,0 +1,271 @@
+/* Modern Labor Movements Timeline - CSS */
+:root {
+    /* Core Color Palette */
+    --rail-color: #2564c8;     /* Railroad blue */
+    --amazon-color: #c88925;   /* Amazon orange */
+    --starbucks-color: #25c837; /* Starbucks green */
+    --bg-primary: #c825b6;     /* Vibrant purple background */
+    
+    /* Text Colors - Updated to Black */
+    --text-dark: #000000;      /* Black text */
+    --text-light: #f9f9f9;     
+    --text-muted: rgba(0,0,0,0.7);
+    
+    /* UI Colors */
+    --card-bg: rgba(255, 255, 255, 0.95); /* More opaque for better readability */
+    --timeline-line: rgba(0,0,0,0.15);
+    --legend-bg: rgba(255,255,255,0.95);
+    
+    /* Effects */
+    --shadow: 0 4px 12px rgba(0,0,0,0.2);
+    --blur-effect: blur(6px);
+}
+
+
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--bg-primary);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3 {
+    font-weight: 600;
+    margin-top: 0;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--timeline-line);
+}
+
+/* Timeline Structure */
+.timeline-container {
+    position: relative;
+    padding: 3rem 0;
+}
+
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: var(--timeline-line);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Event Cards */
+.event {
+    padding: 0 2rem 2rem;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.event.left {
+    left: 0;
+    transform: translateX(-30px);
+    padding-right: 4rem;
+}
+
+.event.right {
+    left: 50%;
+    transform: translateX(30px);
+    padding-left: 4rem;
+}
+
+.event.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.event-card {
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    backdrop-filter: var(--blur-effect);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
+
+/* Event Indicators */
+.event::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border: 4px solid;
+    border-radius: 50%;
+    top: 2rem;
+    z-index: 2;
+}
+
+.event.left::after {
+    right: -10px;
+}
+
+.event.right::after {
+    left: -10px;
+}
+
+/* Color Coding */
+.rail .event-card {
+    border-left-color: var(--rail-color);
+}
+.rail::after {
+    border-color: var(--rail-color);
+}
+
+.amazon .event-card {
+    border-left-color: var(--amazon-color);
+}
+.amazon::after {
+    border-color: var(--amazon-color);
+}
+
+.starbucks .event-card {
+    border-left-color: var(--starbucks-color);
+}
+.starbucks::after {
+    border-color: var(--starbucks-color);
+}
+
+/* Content Styling */
+.event-date {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    color: inherit;
+}
+
+.event-date::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+}
+
+.rail .event-date::before {
+    background-color: var(--rail-color);
+}
+.amazon .event-date::before {
+    background-color: var(--amazon-color);
+}
+.starbucks .event-date::before {
+    background-color: var(--starbucks-color);
+}
+
+.event-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+.rail .event-title {
+    color: var(--rail-color);
+}
+.amazon .event-title {
+    color: var(--amazon-color);
+}
+.starbucks .event-title {
+    color: var(--starbucks-color);
+}
+
+.event-desc {
+    margin: 0;
+    color: var(--text-dark);
+    opacity: 0.9;
+}
+
+/* Legend */
+.legend-container {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    border-radius: 24px;
+    background: var(--legend-bg);
+    backdrop-filter: var(--blur-effect);
+    box-shadow: var(--shadow);
+    font-weight: 500;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    border: 2px solid white;
+}
+
+.rail-legend .legend-color {
+    background-color: var(--rail-color);
+}
+.amazon-legend .legend-color {
+    background-color: var(--amazon-color);
+}
+.starbucks-legend .legend-color {
+    background-color: var(--starbucks-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .timeline-container::before {
+        left: 2rem;
+    }
+    
+    .event {
+        width: 100%;
+        padding-left: 4.5rem;
+        padding-right: 1rem;
+    }
+    
+    .event.right {
+        left: 0;
+    }
+    
+    .event::after {
+        left: 1.5rem;
+    }
+    
+    .event.left::after {
+        right: auto;
+    }
+    
+    .legend-container {
+        gap: 1rem;
+    }
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
