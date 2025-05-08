@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railroad Labor Movement Timeline</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="header">
+      <h1>Railroad Labor Movement Timeline</h1>
+  </div>
+  
+  <div class="legend-container">
+      <div class="legend-item rail-legend">
+          <div class="legend-color"></div>
+          <span>Railroad Labor Dispute</span>
+      </div>
+  </div>
+  
+  <div class="timeline-container">
+      <div class="event left rail">
+          <div class="event-card">
+              <div class="event-date">November 2019</div>
+              <h3 class="event-title">Rail Negotiations Begin</h3>
+              <p class="event-desc">Contract negotiations start between rail unions and carriers, focusing on working conditions and benefits.</p>
+          </div>
+      </div>
+      
+      <div class="event right rail">
+          <div class="event-card">
+              <div class="event-date">August 2022</div>
+              <h3 class="event-title">Presidential Emergency Board</h3>
+              <p class="event-desc">Biden establishes emergency board to investigate rail dispute as negotiations stall.</p>
+          </div>
+      </div>
+      
+      <div class="event left rail">
+          <div class="event-card">
+              <div class="event-date">September 2022</div>
+              <h3 class="event-title">Tentative Agreement Reached</h3>
+              <p class="event-desc">Unions and carriers reach deal hours before strike deadline, but 4 unions later reject it.</p>
+          </div>
+      </div>
+      
+      <div class="event right rail">
+          <div class="event-card">
+              <div class="event-date">December 2022</div>
+              <h3 class="event-title">Congress Imposes Contract</h3>
+              <p class="event-desc">Congress intervenes to prevent strike, imposing terms rejected by some unions.</p>
+          </div>
+      </div>
+  </div>
+  
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const events = document.querySelectorAll('.event');
+          
+          const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.classList.add('visible');
+                  }
+              });
+          }, { threshold: 0.1 });
+          
+          events.forEach(event => {
+              observer.observe(event);
+          });
+      });
+  </script>
+</body>
+</html>

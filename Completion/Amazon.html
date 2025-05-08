@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Labor Movement Timeline</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="header">
+      <h1>Amazon Labor Movement Timeline</h1>
+  </div>
+  
+  <div class="legend-container">
+      <div class="legend-item amazon-legend">
+          <div class="legend-color"></div>
+          <span>Amazon Unionization</span>
+      </div>
+  </div>
+  
+  <div class="timeline-container">
+      <div class="event left amazon">
+          <div class="event-card">
+              <div class="event-date">March 2020</div>
+              <h3 class="event-title">Chris Smalls Leads Walkout</h3>
+              <p class="event-desc">Amazon worker Chris Smalls organizes Staten Island walkout over COVID safety concerns, leading to his firing and eventual union organizing.</p>
+          </div>
+      </div>
+      
+      <div class="event right amazon">
+          <div class="event-card">
+              <div class="event-date">April 2022</div>
+              <h3 class="event-title">ALU Wins Historic Election</h3>
+              <p class="event-desc">Amazon Labor Union wins election at JFK8 warehouse, creating Amazon's first US union.</p>
+          </div>
+      </div>
+      
+      <div class="event left amazon">
+          <div class="event-card">
+              <div class="event-date">2023</div>
+              <h3 class="event-title">Contract Negotiations Stall</h3>
+              <p class="event-desc">Amazon continues to resist recognizing ALU, leading to protracted legal battles.</p>
+          </div>
+      </div>
+  </div>
+  
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const events = document.querySelectorAll('.event');
+          
+          const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.classList.add('visible');
+                  }
+              });
+          }, { threshold: 0.1 });
+          
+          events.forEach(event => {
+              observer.observe(event);
+          });
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starbucks Labor Movement Timeline</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="header">
+      <h1>Starbucks Labor Movement Timeline</h1>
+  </div>
+  
+  <div class="legend-container">
+      <div class="legend-item starbucks-legend">
+          <div class="legend-color"></div>
+          <span>Starbucks Unionization</span>
+      </div>
+  </div>
+  
+  <div class="timeline-container">
+      <div class="event left starbucks">
+          <div class="event-card">
+              <div class="event-date">December 2021</div>
+              <h3 class="event-title">First Starbucks Unionizes</h3>
+              <p class="event-desc">Workers at a Buffalo, NY Starbucks vote to unionize, the first corporate-owned store to do so in decades.</p>
+          </div>
+      </div>
+      
+      <div class="event right starbucks">
+          <div class="event-card">
+              <div class="event-date">2022-2023</div>
+              <h3 class="event-title">Rapid Expansion</h3>
+              <p class="event-desc">Over 400 Starbucks stores vote to unionize across the US, despite corporate opposition.</p>
+          </div>
+      </div>
+      
+      <div class="event left starbucks">
+          <div class="event-card">
+              <div class="event-date">2023-2024</div>
+              <h3 class="event-title">Bargaining Begins</h3>
+              <p class="event-desc">After policy shift, Starbucks begins contract negotiations with unionized stores.</p>
+          </div>
+      </div>
+  </div>
+  
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const events = document.querySelectorAll('.event');
+          
+          const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.classList.add('visible');
+                  }
+              });
+          }, { threshold: 0.1 });
+          
+          events.forEach(event => {
+              observer.observe(event);
+          });
+      });
+  </script>
+</body>
+</html>
