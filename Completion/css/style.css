@@ -1,4 +1,39 @@
-/* Modern Labor Movements Timeline - CSS */
+/* Add these new rules to your existing style.css */
+
+/* Starbucks-specific color scheme */
+body[data-theme="starbucks"] {
+    --bg-primary: #65C825;     /* Starbucks dark green */
+    --starbucks-color: #25c837; /* Starbucks signature green */
+    --text-light: #f9f9f9;
+    --text-dark: #000000;       /* White text for better contrast */
+    --text-muted: rgba(0,0,0,0.7);
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --legend-bg: rgba(255,255,255,0.95);
+}
+
+/* Railroad-specific color scheme */
+body[data-theme="rail"] {
+    --bg-primary: #25B5C8;      /* Railroad navy blue */
+    --rail-color: #2564c8;      /* Railroad light blue */
+    --text-light: #f9f9f9;
+    --text-dark: #000000;       /* White text for better contrast */
+    --text-muted: rgba(0,0,0,0.7);
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --legend-bg: rgba(255,255,255,0.95);
+}
+
+/* Amazon-specific color scheme */
+body[data-theme="amazon"] {
+    --bg-primary: #f39704;      /* Amazon dark blue */
+    --amazon-color: #c88925;    /* Amazon orange */
+    --text-light: #f9f9f9;
+    --text-dark: #000000;       /* White text for better contrast */
+    --text-muted: rgba(0,0,0,0.7);
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --legend-bg: rgba(255,255,255,0.95);
+}
+
+/* Update the existing :root variables to be the default (index page) */
 :root {
     /* Core Color Palette */
     --rail-color: #2564c8;     /* Railroad blue */
@@ -6,13 +41,13 @@
     --starbucks-color: #25c837; /* Starbucks green */
     --bg-primary: #c825b6;     /* Vibrant purple background */
     
-    /* Text Colors - Updated to Black */
+    /* Text Colors */
     --text-dark: #000000;      /* Black text */
     --text-light: #f9f9f9;     
     --text-muted: rgba(0,0,0,0.7);
     
     /* UI Colors */
-    --card-bg: rgba(255, 255, 255, 0.95); /* More opaque for better readability */
+    --card-bg: rgba(255, 255, 255, 0.95);
     --timeline-line: rgba(0,0,0,0.15);
     --legend-bg: rgba(255,255,255,0.95);
     
@@ -47,6 +82,10 @@ h1, h2, h3 {
     border-bottom: 2px solid var(--timeline-line);
 }
 
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem; /* Optional: Adds some space below the h2 */
+}
 /* Timeline Structure */
 .timeline-container {
     position: relative;
